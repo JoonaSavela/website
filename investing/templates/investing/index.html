@@ -1,0 +1,25 @@
+{% extends 'cv/base.html' %}
+{% load static %}
+{% block style %}
+  <link rel="stylesheet" type="text/css" href="{% static 'investing/style.css' %}">
+{% endblock style %}
+{% block content %}
+  <div class="container">
+    <h1>Investing and goods</h1>
+    <div class="container">
+      <form action="#" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          <label class="text-light" for="{{ field.name }}">{{ field.label }}</label>
+          {{ field }}
+        {% endfor %}
+        <input type="submit" value="Calculate">
+      </form>
+    </div>
+    {% if show %}
+      <div class="container">
+        <h3>Total amount: {{ amount }}</h3>
+      </div>
+    {% endif %}
+  </div>
+{% endblock content %}
