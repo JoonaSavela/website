@@ -10,15 +10,21 @@
       <form action="#" method="post">
         {% csrf_token %}
         {% for field in form %}
-          <label class="text-light" for="{{ field.name }}">{{ field.label }}</label>
-          {{ field }}
+          <div class="form-group row">
+            <label class="text-light col-sm-2 col-form-label" for="{{ field.name }}">{{ field.label }}</label>
+            <div class="col-sm-10">
+              {{ field }}
+            </div>
+          </div>
         {% endfor %}
-        <input type="submit" value="Calculate">
+        <input type="submit" class="btn btn-dark" value="Calculate">
       </form>
     </div>
     {% if show %}
-      <div class="container">
-        <h3>Total amount: {{ amount }}</h3>
+      <div class="container mt-4">
+        <h3>Time taken to pay of car loan: {{ years }} years, {{ months }} months.</h3>
+        <h3>Total capital afterwards: {{ amount }}</h3>
+        <h3>Car Loan Interest Paid: {{ carLoanInterestPaid }}</h3>
       </div>
     {% endif %}
   </div>
