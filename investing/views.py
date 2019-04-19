@@ -26,7 +26,7 @@ class InvestmentDetail(generics.RetrieveUpdateDestroyAPIView):
         investment = self.get_object(pk)
         serializer = InvestmentSerializer(investment)
 
-        responseDict = {'timeSeries': investment.getTimeSeries(),}
+        responseDict = investment.getTimeSeries()
         responseDict.update(serializer.data)
         return Response(responseDict)
 

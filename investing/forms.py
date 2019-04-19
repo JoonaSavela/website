@@ -2,6 +2,11 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 class InvestingForm(forms.Form):
+    years = forms.IntegerField(required=True,
+                            min_value=1,
+                            label='Years',
+                            initial=10,
+                            widget=forms.NumberInput(attrs={'class': 'form-control'}))
     annualInterestRate = forms.FloatField(required=True,
                             min_value=1.0,
                             label='Annual Interest Rate',
