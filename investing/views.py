@@ -5,6 +5,8 @@ from .forms import InvestingForm
 from .models import InvestmentModel
 from .serializers import InvestmentSerializer
 from rest_framework import generics
+from django.http import Http404
+from rest_framework.response import Response
 
 class InvestmentList(generics.ListCreateAPIView):
     queryset = InvestmentModel.objects.all()
@@ -13,6 +15,20 @@ class InvestmentList(generics.ListCreateAPIView):
 class InvestmentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = InvestmentModel.objects.all()
     serializer_class = InvestmentSerializer
+
+    def get_object(self, pk):
+        try:
+            return self.queryset.get(pk=pk)
+        except InvestmentModel.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, *args, **kwargs):
+        investment = self.get_object(pk)
+        serializer = InvestmentSerializer(investment)
+
+        responseDict = {'timeSeries': investment.getTimeSeries(),}
+        responseDict.update(serializer.data)
+        return Response(responseDict)
 
 def geomSum(a, q, k):
     if q == 1:
