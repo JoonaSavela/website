@@ -2,6 +2,17 @@ from django.shortcuts import render
 from math import log
 
 from .forms import InvestingForm
+from .models import InvestmentModel
+from .serializers import InvestmentSerializer
+from rest_framework import generics
+
+class InvestmentList(generics.ListCreateAPIView):
+    queryset = InvestmentModel.objects.all()
+    serializer_class = InvestmentSerializer
+
+class InvestmentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = InvestmentModel.objects.all()
+    serializer_class = InvestmentSerializer
 
 def geomSum(a, q, k):
     if q == 1:
