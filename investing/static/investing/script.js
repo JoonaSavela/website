@@ -24,7 +24,6 @@ function setChart(years, carLoans, capitals) {
 
 $(document).ready(function() {
 
-
   $.ajax({
     method: "GET",
     url: $('#myChart').attr("url"),
@@ -37,5 +36,4 @@ $(document).ready(function() {
   });
 
 
-})
-year
+});

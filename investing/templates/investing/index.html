@@ -22,16 +22,18 @@
         </form>
       </div>
       <div class="col-sm-7">
-        <canvas id="myChart" width="400" height="400" url="{% url 'api-detail' 1 %}"></canvas>
+        {% if pk %}
+          <canvas id="myChart" width="400" height="400" url="{% url 'api-detail' pk %}"></canvas>
+        {% endif %}
       </div>
     </div>
-    {% if show %}
+    <!-- {% if show %}
       <div class="container mt-4">
         <h3>Time taken to pay of car loan: {{ years }} years, {{ months }} months.</h3>
         <h3>Total capital afterwards: {{ amount }}</h3>
         <h3>Car Loan Interest Paid: {{ carLoanInterestPaid }}</h3>
       </div>
-    {% endif %}
+    {% endif %} -->
   </div>
 {% endblock content %}
 {% block script %}
