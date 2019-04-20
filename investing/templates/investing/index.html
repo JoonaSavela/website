@@ -5,27 +5,25 @@
 {% endblock style %}
 {% block content %}
   <div class="container">
-    {% block script %}
-      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-      <script src="{% static 'investing/script.js' %}"></script>
-    {% endblock script %}
     <h1>Investing and goods</h1>
-    <div class="container">
-      <form action="#" method="post">
-        {% csrf_token %}
-        {% for field in form %}
-          <div class="form-group row">
-            <label class="text-light col-sm-3 col-form-label" for="{{ field.name }}">{{ field.label }}</label>
-            <div class="col-sm-2">
-              {{ field }}
+    <div class="row">
+      <div class="col-sm-5">
+        <form action="#" method="post">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form-group row">
+              <label class="text-light col-sm-7 col-form-label" for="{{ field.name }}">{{ field.label }}</label>
+              <div class="col-sm-5">
+                {{ field }}
+              </div>
             </div>
-          </div>
-        {% endfor %}
-        <input type="submit" class="btn btn-dark" value="Calculate">
-      </form>
-    </div>
-    <div class="">
-      <canvas id="myChart" width="400" height="400"></canvas>
+          {% endfor %}
+          <input type="submit" class="btn btn-dark" value="Calculate">
+        </form>
+      </div>
+      <div class="col-sm-7">
+        <canvas id="myChart" width="400" height="400" url="{% url 'api-detail' 1 %}"></canvas>
+      </div>
     </div>
     {% if show %}
       <div class="container mt-4">
@@ -36,3 +34,7 @@
     {% endif %}
   </div>
 {% endblock content %}
+{% block script %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script src="{% static 'investing/script.js' %}"></script>
+{% endblock script %}

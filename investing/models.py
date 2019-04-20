@@ -25,7 +25,7 @@ class InvestmentModel(models.Model):
         return log(frac, base)
 
     def getTimeSeries(self):
-        monthVector = list(range(self.years * 12 + 1))
+        yearVector = list(range(self.years + 1))
         carLoanVector = []
         capitalVector = []
 
@@ -37,20 +37,20 @@ class InvestmentModel(models.Model):
             capital -= carLoan - newCarLoan
             carLoan = newCarLoan
 
-        for month in monthVector:
+        for year in yearVector:
             carLoanVector.append(carLoan)
             capitalVector.append(capital)
 
-            carLoan *= self.carLoanAnnualInterestRate ** (1 / 12)
-            monthlyCarLoanPayment = min(self.monthlyCarLoanPayment, carLoan)
-            carLoan -= monthlyCarLoanPayment
+            yearlyCarLoanPayment = min(self.monthlyCarLoanPayment * 12, carLoan)
+            carLoan -= yearlyCarLoanPayment
+            carLoan *= self.carLoanAnnualInterestRate
 
-            monthlyAmount = self.monthlyAmount - monthlyCarLoanPayment
-            capital *= self.annualInterestRate ** (1 / 12)
-            capital += monthlyAmount
+            yearlyAmount = self.monthlyAmount * 12 - yearlyCarLoanPayment
+            capital += yearlyAmount
+            capital *= self.annualInterestRate
 
         res = {
-            'months': monthVector,
+            'years': yearVector,
             'carLoans': carLoanVector,
             'capitals': capitalVector,
         }

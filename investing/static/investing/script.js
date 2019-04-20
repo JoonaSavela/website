@@ -1,26 +1,41 @@
-
-
-
-function setChart() {
+function setChart(years, carLoans, capitals) {
   var ctx = $('#myChart');
-  var chart = new Chart(ctx, {
-      // The type of chart we want to create
-      type: 'line',
-
-      // The data for our dataset
-      data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          datasets: [{
-              label: 'My First dataset',
-              backgroundColor: 'rgb(255, 99, 132)',
-              borderColor: 'rgb(255, 99, 132)',
-              data: [0, 10, 5, 2, 20, 30, 45]
-          }]
-      },
-
-      // Configuration options go here
-      options: {}
+  var mixedChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Car Loan',
+            data: carLoans,
+            backgroundColor: 'rgba(125, 175, 0, 0.5)',
+            borderColor: 'rgba(125, 175, 0, 1)',
+            fill: false,
+        }, {
+            label: 'Capital',
+            data: capitals,
+            backgroundColor: 'rgba(175, 125, 0, 0.75)',
+            borderColor: 'rgba(175, 125, 0, 1)',
+            fill: false,
+        }],
+        labels: years
+    },
+    options: {}
   });
 };
 
-setChart();
+$(document).ready(function() {
+
+
+  $.ajax({
+    method: "GET",
+    url: $('#myChart').attr("url"),
+    success: function(data) {
+      setChart(data.years, data.carLoans, data.capitals);
+    },
+    error: function(data) {
+      console.log("error!");
+    }
+  });
+
+
+})
+year
