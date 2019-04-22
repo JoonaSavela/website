@@ -4,7 +4,7 @@ from math import log
 class InvestmentModel(models.Model):
     years = models.IntegerField(default=10)
     annualInterestRate = models.FloatField(default=1.07)
-    monthlyAmount = models.FloatField(default=1500)
+    monthlyAmount = models.FloatField(default=2000)
     initialCapital = models.FloatField(default=10_000)
 
     carPrice = models.FloatField(default=71_228)
@@ -12,6 +12,12 @@ class InvestmentModel(models.Model):
     monthlyCarLoanPayment = models.FloatField(default=614)
     payWithInitialCapital = models.BooleanField(default=False)
     payCarLoanAfter5Years = models.BooleanField(default=False)
+
+    apartmentLoan = models.FloatField(default=100_000)
+    apartmentLoanAnnualInterestRate = models.FloatField(default=1.0125)
+    monthlyApartmentLoanPayment = models.FloatField(default=500)
+    spousePaysEqualAmount = models.BooleanField(default=False)
+
 
     def geomSum(self, a, q, k):
         if q == 1:
@@ -29,11 +35,13 @@ class InvestmentModel(models.Model):
     def getTimeSeries(self):
         yearVector = list(range(self.years + 1))
         carLoanVector = []
+        apartmentLoanVector = []
         capitalVector = []
         totalCapitalVector = []
 
         capital = self.initialCapital
         carLoan = self.carPrice
+        apartmentLoan = self.apartmentLoan
 
         if self.payWithInitialCapital:
             newCarLoan = max(carLoan - capital, 0)
@@ -44,14 +52,20 @@ class InvestmentModel(models.Model):
 
         for year in yearVector:
             carLoanVector.append(carLoan)
+            apartmentLoanVector.append(apartmentLoan)
             capitalVector.append(capital)
-            totalCapitalVector.append(capital - carLoan)
+            totalCapitalVector.append(capital - carLoan - apartmentLoan)
 
             yearlyCarLoanPayment = min(self.monthlyCarLoanPayment * 12, carLoan)
             carLoan -= yearlyCarLoanPayment
             carLoan *= self.carLoanAnnualInterestRate
 
-            yearlyAmount = self.monthlyAmount * 12 - yearlyCarLoanPayment
+            yearlyApartmentLoanPayment = min(self.monthlyApartmentLoanPayment * 12 * (2 if self.spousePaysEqualAmount else 1),
+                                             apartmentLoan)
+            apartmentLoan -= yearlyApartmentLoanPayment
+            apartmentLoan *= self.apartmentLoanAnnualInterestRate
+
+            yearlyAmount = self.monthlyAmount * 12 - yearlyCarLoanPayment - yearlyApartmentLoanPayment * (0.5 if self.spousePaysEqualAmount else 1)
             capital += yearlyAmount
             capital *= self.annualInterestRate
 
@@ -65,6 +79,7 @@ class InvestmentModel(models.Model):
         res = {
             'years': yearVector,
             'carLoans': carLoanVector,
+            'apartmentLoans': apartmentLoanVector,
             'capitals': capitalVector,
             'totalCapitals': totalCapitalVector,
         }

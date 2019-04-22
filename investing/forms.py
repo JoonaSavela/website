@@ -16,7 +16,7 @@ class InvestingForm(forms.Form):
                             widget=forms.NumberInput(attrs={'class': 'form-control'}))
     monthlyAmount = forms.FloatField(min_value=0,
                             label='Monthly Amount',
-                            initial=1500,
+                            initial=2000,
                             widget=forms.NumberInput(attrs={'class': 'form-control'}))
     initialCapital = forms.FloatField(min_value=0,
                             label='Initial Capital',
@@ -42,10 +42,26 @@ class InvestingForm(forms.Form):
                             required=False,
                             widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
 
+    apartmentLoan = forms.FloatField(min_value=0,
+                            label='Apartment Loan',
+                            initial=100_000,
+                            widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    apartmentLoanAnnualInterestRate = forms.FloatField(min_value=1.0,
+                            label='Apartment Loan Annual Interest Rate',
+                            initial=1.0125,
+                            widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    monthlyApartmentLoanPayment = forms.FloatField(min_value=0,
+                            label='Monthly Apartment Loan Payment',
+                            initial=500,
+                            widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    spousePaysEqualAmount = forms.BooleanField(label='Spouse Pays Equal Amount',
+                            required=False,
+                            widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
+
     def clean(self):
         cd = self.cleaned_data
 
-        if cd.get('monthlyCarLoanPayment') > cd.get('monthlyAmount'):
-            raise ValidationError("Monthly car loan payment cannot be grater than monthly amount.")
+        if cd.get('monthlyCarLoanPayment') + cd.get('monthlyApartmentLoanPayment') > cd.get('monthlyAmount'):
+            raise ValidationError("Sum of monthly car and apartment loan payments cannot be greater than monthly amount.")
 
         return cd

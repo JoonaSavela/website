@@ -40,11 +40,17 @@ def index(request):
             annualInterestRate = form.cleaned_data['annualInterestRate']
             monthlyAmount = form.cleaned_data['monthlyAmount']
             initialCapital = form.cleaned_data['initialCapital']
+
             carPrice = form.cleaned_data['carPrice']
             carLoanAnnualInterestRate = form.cleaned_data['carLoanAnnualInterestRate']
             monthlyCarLoanPayment = form.cleaned_data['monthlyCarLoanPayment']
             payWithInitialCapital = form.cleaned_data['payWithInitialCapital']
             payCarLoanAfter5Years = form.cleaned_data['payCarLoanAfter5Years']
+
+            apartmentLoan = form.cleaned_data['apartmentLoan']
+            apartmentLoanAnnualInterestRate = form.cleaned_data['apartmentLoanAnnualInterestRate']
+            monthlyApartmentLoanPayment = form.cleaned_data['monthlyApartmentLoanPayment']
+            spousePaysEqualAmount = form.cleaned_data['spousePaysEqualAmount']
 
             obj, created = InvestmentModel.objects.get_or_create(
                 years=years,
@@ -55,7 +61,11 @@ def index(request):
                 carLoanAnnualInterestRate=carLoanAnnualInterestRate,
                 monthlyCarLoanPayment=monthlyCarLoanPayment,
                 payWithInitialCapital=payWithInitialCapital,
-                payCarLoanAfter5Years=payCarLoanAfter5Years
+                payCarLoanAfter5Years=payCarLoanAfter5Years,
+                apartmentLoan=apartmentLoan,
+                apartmentLoanAnnualInterestRate=apartmentLoanAnnualInterestRate,
+                monthlyApartmentLoanPayment=monthlyApartmentLoanPayment,
+                spousePaysEqualAmount=spousePaysEqualAmount
             )
 
             pk = obj.pk
