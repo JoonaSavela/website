@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from math import log
 
 from .forms import InvestingForm
 from .models import InvestmentModel
@@ -45,6 +44,7 @@ def index(request):
             carLoanAnnualInterestRate = form.cleaned_data['carLoanAnnualInterestRate']
             monthlyCarLoanPayment = form.cleaned_data['monthlyCarLoanPayment']
             payWithInitialCapital = form.cleaned_data['payWithInitialCapital']
+            payCarLoanAfter5Years = form.cleaned_data['payCarLoanAfter5Years']
 
             obj, created = InvestmentModel.objects.get_or_create(
                 years=years,
@@ -54,7 +54,8 @@ def index(request):
                 carPrice=carPrice,
                 carLoanAnnualInterestRate=carLoanAnnualInterestRate,
                 monthlyCarLoanPayment=monthlyCarLoanPayment,
-                payWithInitialCapital=payWithInitialCapital
+                payWithInitialCapital=payWithInitialCapital,
+                payCarLoanAfter5Years=payCarLoanAfter5Years
             )
 
             pk = obj.pk

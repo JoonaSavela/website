@@ -1,4 +1,5 @@
 from django.db import models
+from math import log
 
 class InvestmentModel(models.Model):
     years = models.IntegerField(default=10)
@@ -10,6 +11,7 @@ class InvestmentModel(models.Model):
     carLoanAnnualInterestRate = models.FloatField(default=1.019)
     monthlyCarLoanPayment = models.FloatField(default=614)
     payWithInitialCapital = models.BooleanField(default=False)
+    payCarLoanAfter5Years = models.BooleanField(default=False)
 
     def geomSum(self, a, q, k):
         if q == 1:
@@ -28,6 +30,7 @@ class InvestmentModel(models.Model):
         yearVector = list(range(self.years + 1))
         carLoanVector = []
         capitalVector = []
+        totalCapitalVector = []
 
         capital = self.initialCapital
         carLoan = self.carPrice
@@ -37,9 +40,12 @@ class InvestmentModel(models.Model):
             capital -= carLoan - newCarLoan
             carLoan = newCarLoan
 
+        paymentYear = 5
+
         for year in yearVector:
             carLoanVector.append(carLoan)
             capitalVector.append(capital)
+            totalCapitalVector.append(capital - carLoan)
 
             yearlyCarLoanPayment = min(self.monthlyCarLoanPayment * 12, carLoan)
             carLoan -= yearlyCarLoanPayment
@@ -49,10 +55,18 @@ class InvestmentModel(models.Model):
             capital += yearlyAmount
             capital *= self.annualInterestRate
 
+            if self.payCarLoanAfter5Years and year == paymentYear:
+                if capital > carLoan:
+                    capital -= carLoan
+                    carLoan = 0
+                else:
+                    paymentYear += 1
+
         res = {
             'years': yearVector,
             'carLoans': carLoanVector,
             'capitals': capitalVector,
+            'totalCapitals': totalCapitalVector,
         }
 
         return res
