@@ -1,11 +1,82 @@
 body {
   background-color: #2a0000;
-}
-
-h1, h2, h3, h4, h5, h6, a {
-  color: #ffffff;
+  color: white;
 }
 
 .bg-navbar {
   background-color: #602000;
+}
+
+.nav-content-wrapper {
+  display: grid;
+  grid-template-rows: 6rem auto;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas:
+    "n n n n n n n n n n n n"
+    ". . . c c c c c c . . .";
+}
+
+.navbar {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  grid-area: n;
+}
+
+.content {
+  /* background-color: green; */
+  grid-area: c;
+}
+
+.navbar-wrapper {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas:
+    "a e w i . . . . . . . p";
+  align-items: center;
+  justify-items: center;
+}
+
+.about-me {
+  grid-area: a;
+}
+
+.education {
+  grid-area: e;
+}
+
+.work-experience {
+  grid-area: w;
+}
+
+.it-skills {
+  grid-area: i;
+}
+
+.projects {
+  grid-area: p;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3rem;
+  margin: 0px;
+}
+
+section {
+  margin-bottom: 3rem;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #2a0000;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #4a1000;
 }

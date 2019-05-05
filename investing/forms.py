@@ -40,6 +40,7 @@ class InvestingForm(forms.Form):
                             widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
     payCarLoanAfter5Years = forms.BooleanField(label='Pay Car Loan After 5 Years',
                             required=False,
+                            initial=True,
                             widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
 
     apartmentLoan = forms.FloatField(min_value=0,
