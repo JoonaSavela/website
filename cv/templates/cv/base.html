@@ -9,6 +9,9 @@
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
 
     <link rel="stylesheet" type="text/css" href="{% static 'cv/style.css' %}">
+    <!-- <style media="screen">
+
+    </style> -->
     {% block style %}
     {% endblock style %}
 
@@ -16,18 +19,25 @@
   </head>
   <body>
     <div class="nav-content-wrapper">
-      <nav class="navbar bg-navbar">
-        <div class="navbar-wrapper">
-          <a class="about-me" href="{% url 'cv-index' %}">
-            <img src="{% static 'cv/img/joona.JPG' %}" class="" alt="About me" style="height: 5rem;">
-          </a>
-          <a class="education btn" href="{% url 'cv-index' %}#education">Education</a>
-          <a class="work-experience btn" href="{% url 'cv-index' %}#work-experience">Work Experience</a>
-          <a class="it-skills btn" href="#">IT skills</a>
-          <!-- <a class="projects btn" href="#">Projects</a> -->
-          <a class="projects btn" href="{% url 'investing-index' %}">Investments and goods</a>
-        </div>
-      </nav>
+      <header class="navbar">
+        <a class="about-me" href="{% url 'cv-index' %}">
+          <h2>Joona Savela</h1>
+          <img src="{% static 'cv/img/joona.JPG' %}" class="" alt="About me">
+        </a>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul>
+            <li><a class="" href="{% url 'cv-index' %}#education">Education</a></li>
+            <li><a class="" href="{% url 'cv-index' %}#work-experience">Work Experience</a></li>
+            <li><a class="" href="#">IT skills</a></li>
+            <!-- <li><a class="" href="#">Projects</a></li> -->
+            <li><a class="" href="{% url 'investing-index' %}">Investments and goods</a></li>
+          </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label">
+          <span></span>
+        </label>
+      </header>
       <div class="content">
         {% block content %}{% endblock content %}
       </div>
