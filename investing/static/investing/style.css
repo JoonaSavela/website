@@ -1,8 +1,11 @@
-body {
+/* body {
   background-color: #00002a;
-  color: white;
 }
 
-.bg-navbar {
+:root {
+  --nav-background: #002060;
+} */
+
+/* .bg-navbar {
   background-color: #002060;
-}
+} */

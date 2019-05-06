@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:300,600');
 
 :root {
-  --background: #602000;
+  --nav-background: #002060;
   --img-height: 7rem;
 }
 
@@ -12,7 +12,7 @@
 body {
   display: flex;
   margin: 0;
-  background-color: #2a0000;
+  background-color: #00002a;
   font-family: 'Work Sans', sans-serif;
   color: white;
 }
@@ -20,7 +20,7 @@ body {
 /* navigation styles start here */
 
 header {
-  background: var(--background);
+  background: var(--nav-background);
   text-align: center;
   position: fixed;
   z-index: 999;
@@ -33,7 +33,7 @@ nav {
   text-align: right;
   top: 100%;
   left: 0;
-  background: var(--background);
+  background: var(--nav-background);
   width: 100%;
   transform: scale(1, 0);
   transform-origin: top;
