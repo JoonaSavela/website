@@ -1,39 +1,43 @@
 {% extends 'cv/base.html' %}
 {% load static %}
 {% block style %}
-  <link rel="stylesheet" type="text/css" href="{% static 'investing/style.css' %}">
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'investing/style.css' %}"> -->
+  <style media="screen">
+    .investing-wrapper {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "t t t t t t t t t t t t"
+        "f f f f f p p p p p p p";
+    }
+
+    .investing-wrapper h1 {
+      grid-area: t;
+    }
+
+    .investing-wrapper form {
+      grid-area: f;
+    }
+
+    .canvas-container {
+      grid-area: p;
+    }
+  </style>
 {% endblock style %}
 {% block content %}
-  <div class="container">
-    <h1 class="text-light">Investing and goods</h1>
-    <div class="row">
-      <div class="col-sm-5">
-        <form action="#" method="post">
-          {% csrf_token %}
-          {% for field in form %}
-            <div class="form-group row">
-              <label class="text-light col-sm-7 col-form-label" for="{{ field.name }}">{{ field.label }}</label>
-              <div class="col-sm-5">
-                {{ field }}
-              </div>
-            </div>
-          {% endfor %}
-          <input type="submit" class="btn btn-dark" value="Calculate">
-        </form>
+  <div class="investing-wrapper">
+    <h1>Investing and goods</h1>
+    <form action="#" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="" value="Calculate">
+    </form>
+    {% if pk %}
+      <div class="canvas-container">
+        <canvas id="myChart" width="400" height="400" url="{% url 'api-detail' pk %}"></canvas>
       </div>
-      <div class="col-sm-7">
-        {% if pk %}
-          <canvas id="myChart" width="400" height="400" url="{% url 'api-detail' pk %}"></canvas>
-        {% endif %}
-      </div>
-    </div>
-    <!-- {% if show %}
-      <div class="container mt-4">
-        <h3>Time taken to pay of car loan: {{ years }} years, {{ months }} months.</h3>
-        <h3>Total capital afterwards: {{ amount }}</h3>
-        <h3>Car Loan Interest Paid: {{ carLoanInterestPaid }}</h3>
-      </div>
-    {% endif %} -->
+    {% endif %}
   </div>
 {% endblock content %}
 {% block script %}
