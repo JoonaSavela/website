@@ -8,40 +8,339 @@
 
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
 
-    <link rel="stylesheet" type="text/css" href="{% static 'cv/style.css' %}">
-    <!-- <style media="screen">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'cv/style.css' %}"> -->
+    <style media="screen">
+      @import url('https://fonts.googleapis.com/css?family=Work+Sans:300,600');
 
-    </style> -->
+      :root {
+        --nav-background: #007;
+        --background: #00002a;
+        --pointer-color: #088;
+        --img-height: 7rem;
+        --arrow-width: 25px;
+        --arrow-height: 30px
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        margin: 0;
+        background-color: var(--background);
+        font-family: 'Work Sans', sans-serif;
+        color: white;
+      }
+
+      /* navigation styles start here */
+
+      header {
+        background: var(--nav-background);
+        text-align: center;
+        position: fixed;
+        z-index: 999;
+        width: 100%;
+        height: var(--img-height);
+      }
+
+      nav {
+        position: absolute;
+        text-align: right;
+        top: 100%;
+        left: 0;
+        background: var(--nav-background);
+        width: 100%;
+        transform: scale(1, 0);
+        transform-origin: top;
+        transition: transform 250ms ease-in-out;
+      }
+
+      nav ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      nav li {
+        margin-bottom: 1em;
+        margin-right: 1em;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        opacity: 0;
+        transition: opacity 150ms ease-in-out;
+      }
+
+      nav a:hover {
+        color: #000;
+      }
+
+      .nav-toggle:checked ~ nav {
+        transform: scale(1,1);
+      }
+
+      .nav-toggle:checked ~ nav a {
+        opacity: 1;
+        transition: opacity 150ms ease-in-out 150ms;
+      }
+
+      /* changed this from the tutorial video to
+       allow it to gain focus, making it tabbable */
+      .nav-toggle {
+        position: absolute !important;
+        top: -9999px !important;
+        left: -9999px !important;
+      }
+
+      .nav-toggle:focus ~ .nav-toggle-label {
+        outline: 3px solid rgba(lightblue, .75);
+      }
+
+      .nav-toggle-label {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-right: 1em;
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-toggle-label span,
+      .nav-toggle-label span::before,
+      .nav-toggle-label span::after {
+        display: block;
+        background: white;
+        height: 2px;
+        width: 2em;
+        border-radius: 2px;
+        position: relative;
+      }
+
+      .nav-toggle-label span::before,
+      .nav-toggle-label span::after {
+        content: '';
+        position: absolute;
+      }
+
+      .nav-toggle-label span::before {
+        bottom: 7px;
+      }
+
+      .nav-toggle-label span::after {
+        top: 7px;
+      }
+
+      @media screen and (min-width: 800px) {
+        .nav-toggle-label {
+          display: none;
+        }
+
+        header {
+          display: grid;
+          grid-template-columns: 1fr auto minmax(650px, 5fr) 1fr;
+        }
+
+        .about-me {
+          grid-column: 2 / 3;
+        }
+
+        nav {
+          position: relative;
+          text-align: left;
+          transition: none;
+          transform: scale(1,1);
+          background: none;
+          top: initial;
+          left: initial;
+
+          grid-column: 3 / 4;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+        }
+
+        nav ul {
+          display: flex;
+        }
+
+        nav li {
+          margin-left: 2em;
+          margin-bottom: 0;
+        }
+
+        nav a {
+          opacity: 1;
+          position: relative;
+        }
+
+        nav a::before {
+          content: '';
+          display: block;
+          height: 5px;
+          background: black;
+          position: absolute;
+          bottom: -.75em;
+          left: 0;
+          right: 0;
+          transform: scale(0, 1);
+          transform-origin: left;
+          transition: transform ease-in-out 150ms;
+        }
+
+        nav a:hover::before {
+          transform: scale(1,1);
+        }
+      }
+
+      .wrapper {
+        top: var(--img-height);
+        display: grid;
+        grid-template-rows: var(--img-height) auto;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-areas:
+          "n n n n n n n n n n n n"
+          "s s . c c c c c c . . .";
+      }
+
+      .navbar {
+        grid-area: n;
+      }
+
+      .content {
+        grid-area: c;
+      }
+
+      .side-content {
+        grid-area: s;
+      }
+
+      .side-info-toggle {
+        display: none;
+      }
+
+      .side-info-toggle-label {
+        /* background-color: var(--nav-background); */
+        top: calc(var(--img-height) * 2);
+        position: sticky;
+        top: calc(var(--img-height) * 2);
+        cursor: pointer;
+      }
+
+      .about-me {
+          display: flex;
+          align-items: center;
+          color: white;
+          text-decoration: none;
+          text-transform: uppercase;
+          font-size: 1.3rem;
+          font-weight: bold;
+      }
+
+      .about-me span {
+        margin-right: 1rem;
+      }
+
+      .about-me img {
+        height: var(--img-height);
+        border-radius: 50%;
+      }
+
+      .about-me img:hover {
+        box-shadow: 0 0 4px 2px rgba(0, 140, 186, 0.5); /* TODO: change color */
+      }
+
+      #pointer {
+        width: var(--arrow-width);
+        height: var(--arrow-height);
+        position: relative;
+        background: var(--pointer-color);
+      }
+      #pointer:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: calc(var(--arrow-height) / 2) solid var(--background);
+        border-top: calc(var(--arrow-height) / 2) solid transparent;
+        border-bottom: calc(var(--arrow-height) / 2) solid transparent;
+      }
+      #pointer:before {
+        content: "";
+        position: absolute;
+        right: calc(var(--arrow-height) / -2);
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: calc(var(--arrow-height) / 2) solid var(--pointer-color);
+        border-top: calc(var(--arrow-height) / 2) solid transparent;
+        border-bottom: calc(var(--arrow-height) / 2) solid transparent;
+      }
+
+      /* TODO: move to .css file tied to the template */
+      h1 {
+        text-align: center;
+        font-size: 3rem;
+        margin: 0px;
+      }
+
+      section {
+        padding-top: calc(var(--img-height) + 1rem);
+      }
+
+      section#about-me {
+        padding-top: 1rem;
+      }
+      /* TODO section ends */
+
+    </style>
     {% block style %}
     {% endblock style %}
 
     <title>Joona Savela</title>
   </head>
   <body>
-    <div class="nav-content-wrapper">
-      <header class="navbar">
-        <a class="about-me" href="{% url 'cv-index' %}">
-          <h2>Joona Savela</h1>
-          <img src="{% static 'cv/img/joona.JPG' %}" class="" alt="About me">
-        </a>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <nav>
-          <ul>
-            <li><a class="" href="{% url 'cv-index' %}#education">Education</a></li>
-            <li><a class="" href="{% url 'cv-index' %}#work-experience">Work Experience</a></li>
-            <li><a class="" href="#">IT skills</a></li>
-            <!-- <li><a class="" href="#">Projects</a></li> -->
-            <li><a class="" href="{% url 'investing-index' %}">Investments and goods</a></li>
-          </ul>
-        </nav>
-        <label for="nav-toggle" class="nav-toggle-label">
-          <span></span>
-        </label>
-      </header>
-      <div class="content">
-        {% block content %}{% endblock content %}
+  <div class="wrapper">
+    <header class="navbar">
+      <a class="about-me" href="{% url 'cv-index' %}">
+        <span>Joona Savela</span>
+        <img src="{% static 'cv/img/joona.JPG' %}" class="" alt="About me">
+      </a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a class="" href="{% url 'cv-index' %}#education">Education</a></li>
+          <li><a class="" href="{% url 'cv-index' %}#work-experience">Work Experience</a></li>
+          <li><a class="" href="{% url 'cv-index' %}#it-skills">IT skills</a></li>
+          <li><a class="" href="#">Projects</a></li>
+          <li><a class="" href="{% url 'investing-index' %}">Investments and goods</a></li>
+        </ul>
+      </nav>
+      <label for="nav-toggle" class="nav-toggle-label">
+        <span></span>
+      </label>
+    </header>
+    <div class="content">
+      {% block content %}{% endblock content %}
+    </div>
+    <div class="side-content">
+      <input type="checkbox" id="side-info-toggle" class="side-info-toggle">
+      <div class="">
+        <label class="side-info-toggle-label" for="side-info-toggle"><div class="" id="pointer"> </div></label>
+      </div>
+      <div class="side-info">
+
       </div>
     </div>
+  </div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
